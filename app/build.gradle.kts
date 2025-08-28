@@ -1,5 +1,13 @@
 plugins {
     id("java")
+    id("org.sonarqube") version "6.3.1.5724"
+}
+
+sonar {
+    properties {
+        property("sonar.projectKey", "Dimon7091_java-project-78")
+        property("sonar.organization", "dmitry-gorbunov-linter")
+    }
 }
 
 group = "hexlet.code"
