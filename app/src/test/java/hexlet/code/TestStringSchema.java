@@ -8,7 +8,7 @@ public class TestStringSchema {
     private Validator validator = new Validator();
 
     @Test
-    public void noMethodTest() {
+    public void noMethodsTest() {
         var actual = validator.string().isValid("");
         var expected = true;
         assertEquals(expected, actual);

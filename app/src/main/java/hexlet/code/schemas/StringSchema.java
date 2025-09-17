@@ -3,40 +3,41 @@ package hexlet.code.shemas;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class StringSchema {
+public class StringSchema extends BaseSchema<String> {
 
-    private Map<String, Object> shemaData;
+    private Map<String, Object> schemaData;
 
     public StringSchema() {
-        this.shemaData = new LinkedHashMap<>();
+        this.schemaData = new LinkedHashMap<>();
     }
 
     public StringSchema required() {
-        shemaData.put("required", true);
+        schemaData.put("required", true);
         return this;
     }
     public StringSchema minLength(int minLength) {
-        shemaData.put("minLength", minLength);
+        schemaData.put("minLength", minLength);
         return this;
     }
     public StringSchema contains(String str) {
-        shemaData.put("contains", str);
+        schemaData.put("contains", str);
         return this;
     }
+    @Override
     public boolean isValid(String string) {
-        if (shemaData.containsKey("required")) {
+        if (schemaData.containsKey("required")) {
             if (string == null || string.isEmpty()) {
                 return false;
             }
         }
-        if (shemaData.containsKey("minLength")) {
-            int minLength = (Integer) shemaData.get("minLength");
+        if (schemaData.containsKey("minLength")) {
+            int minLength = (Integer) schemaData.get("minLength");
             if (string.length() < minLength) {
                 return false;
             }
         }
-        if (shemaData.containsKey("contains")) {
-            String isContainsString = (String) shemaData.get("contains");
+        if (schemaData.containsKey("contains")) {
+            String isContainsString = (String) schemaData.get("contains");
             if (!string.contains(isContainsString)) {
                 return false;
             }

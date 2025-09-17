@@ -6,6 +6,7 @@ public class App {
         var v = new Validator();
         var schema = v.string().required();
         schema.isValid("");
-
+        var numberSchema = v.number().required().positive().range(2, 6);
+        numberSchema.isValid(4);
     }
 }
