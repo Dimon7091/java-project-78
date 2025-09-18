@@ -1,5 +1,5 @@
-package hexlet.code.shemas;
+package hexlet.code.schemas;
 
-abstract class BaseSchema<T> {
+public abstract class BaseSchema<T> {
     public abstract boolean isValid(T value);
 }
