@@ -44,4 +44,8 @@ public class StringSchema extends BaseSchema<String> {
         }
         return true;
     }
+
+    public Map<String, Object> getSchemaData() {
+        return schemaData;
+    }
 }
