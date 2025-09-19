@@ -3,7 +3,7 @@ package hexlet.code.schemas;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class MapSchema extends BaseSchema<Map<String, String>> {
+public final class MapSchema extends BaseSchema<Map<String, String>> {
     private Map<String, Object> schemaData;
 
     public MapSchema() {
@@ -20,6 +20,11 @@ public class MapSchema extends BaseSchema<Map<String, String>> {
         return this;
     }
 
+    public MapSchema shape(Map<String, BaseSchema<String>> schemas) {
+        schemaData.put("shape", schemas);
+        return this;
+    }
+
     @Override
     public boolean isValid(Map<String, String> map) {
         if (schemaData.containsKey("required")) {
@@ -30,6 +35,17 @@ public class MapSchema extends BaseSchema<Map<String, String>> {
         if (schemaData.containsKey("size")) {
             if (map.size() != (int) schemaData.get("size")) {
                 return false;
+            }
+        }
+        if (schemaData.containsKey("shape")) {
+            @SuppressWarnings("unchecked")
+            Map<String, BaseSchema<String>> shapeSchemas = (Map<String, BaseSchema<String>>) schemaData.get("shape");
+            for (Map.Entry<String, BaseSchema<String>> entry : shapeSchemas.entrySet()) {
+                var shapeKey = entry.getKey();
+                var shapeSchema = entry.getValue();
+                if (!shapeSchema.isValid(map.get(shapeKey))) {
+                    return false;
+                }
             }
         }
         return true;

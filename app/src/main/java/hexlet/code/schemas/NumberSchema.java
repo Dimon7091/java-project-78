@@ -2,21 +2,22 @@ package hexlet.code.schemas;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
-public class NumberSchema extends BaseSchema<Integer> {
-    private Map<String, Object> schemaDate;
+public final class NumberSchema extends BaseSchema<Integer> {
+    private Map<String, Object> schemaData;
 
     public NumberSchema() {
-        this.schemaDate = new LinkedHashMap<>();
+        this.schemaData = new LinkedHashMap<>();
     }
 
     public NumberSchema required() {
-        schemaDate.put("required", true);
+        schemaData.put("required", true);
         return this;
     }
 
     public NumberSchema positive() {
-        schemaDate.put("positive", true);
+        schemaData.put("positive", true);
         return this;
     }
 
@@ -24,27 +25,34 @@ public class NumberSchema extends BaseSchema<Integer> {
         Map<String, Integer> value = new LinkedHashMap<>();
         value.put("min", min);
         value.put("max", max);
-        schemaDate.put("range", value);
+        schemaData.put("range", value);
         return this;
     }
     @Override
     public boolean isValid(Integer number) {
-        if (schemaDate.containsKey("required")) {
+        if (schemaData.containsKey("required")) {
             if (number == null) {
                 return false;
             }
         }
-        if (schemaDate.containsKey("positive")) {
-            if (number <= 0) {
+        if (number == null) {
+            // если число не required и null, то считаем валидным
+            return true;
+        }
+        if (schemaData.containsKey("positive")) {
+            Optional<Integer> opt = Optional.ofNullable(number);
+            if (number == null || number <= 0) {
                 return false;
             }
         }
-        if (schemaDate.containsKey("range")) {
+        if (schemaData.containsKey("range")) {
             @SuppressWarnings("unchecked")
-            Map<String, Integer> range = (Map<String, Integer>) schemaDate.get("range");
+            Map<String, Integer> range = (Map<String, Integer>) schemaData.get("range");
             var min = range.get("min");
             var max = range.get("max");
-            if (number < min || number > max) {
+            if (number == null) {
+                return false;
+            } else if (number < min || number > max) {
                 return false;
             }
         }

@@ -3,7 +3,7 @@ package hexlet.code.schemas;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class StringSchema extends BaseSchema<String> {
+public final class StringSchema extends BaseSchema<String> {
 
     private Map<String, Object> schemaData;
 
@@ -43,5 +43,9 @@ public class StringSchema extends BaseSchema<String> {
             }
         }
         return true;
+    }
+
+    public Map<String, Object> getSchemaData() {
+        return schemaData;
     }
 }
